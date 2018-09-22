@@ -14,32 +14,74 @@ const getWeatherFromApi = async () => {
   return {};
 };
 
+const getForecastFromApi = async () => {
+  try {
+    const response = await fetch(`${baseURL}/forecast`);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {};
+};
+
 class Weather extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      icon: "",
+      icon: props.icon,
+      timeString: props.timeString
+    };
+  }
+
+  render() {
+    const { icon, timeString } = this.state;
+
+    return (
+      <div className="forecastElem">
+        <div className="icon">
+          { icon && <img src={`/img/${icon}.svg`} /> }                  
+        </div> - {timeString}
+      </div>
+    );
+  }
+}
+
+class Forecast extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      forecastedWeather: []
     };
   }
 
   async componentWillMount() {
-    const weather = await getWeatherFromApi();
-    this.setState({icon: weather.icon.slice(0, -1)});
+    const fullForecast = (await getForecastFromApi()).list;
+    const threeItems = fullForecast.slice(0, 3);
+
+    this.setState({forecastedWeather: threeItems});
   }
 
   render() {
-    const { icon } = this.state;
-
+    
     return (
-      <div className="icon">
-        { icon && <img src={`/img/${icon}.svg`} /> }
+      <div className="forecast">
+        <ul>
+          {this.state.forecastedWeather.map( function(elem, index) {
+            const wi = elem.weather[0].icon.slice(0, -1);
+            const ts = elem.dt_txt;
+            return <li key={index}><Weather icon={wi} timeString={ts}/> </li>
+          }
+          )}  
+        </ul>
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <Weather />,
+  <Forecast />,
   document.getElementById('app')
 );

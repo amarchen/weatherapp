@@ -8,7 +8,11 @@ body{
   align-items: center;
 }
 
-.icon {
+.forecastElem {
   width: 30vw;
-  height: 30vw;
+}
+
+.icon {
+  width: 3vw;
+  height: 3vw;
 }
