@@ -30,7 +30,7 @@ const getForecastFromApi = async () => {
 
 class Weather extends React.Component {
 
-  propTypes = {
+  propTypes: {
     icon: PropTypes.string,
     timeString: PropTypes.string,
   }
