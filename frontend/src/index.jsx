@@ -30,11 +30,6 @@ const getForecastFromApi = async () => {
 
 class Weather extends React.Component {
 
-  propTypes: {
-    icon: PropTypes.string,
-    timeString: PropTypes.string,
-  }
-
   constructor(props) {
     super(props);
 
@@ -79,10 +74,10 @@ class Forecast extends React.Component {
     return (
       <div className="forecast">
         <ul>
-          {this.state.forecastedWeather.map((elem, index) => {
+          {this.state.forecastedWeather.map((elem) => {
             const wi = elem.weather[0].icon.slice(0, -1);
             const ts = elem.dt_txt;
-            return <li key={index}><Weather icon={wi} timeString={ts} /> </li>;
+            return <li key={elem.dt}><Weather icon={wi} timeString={ts} /> </li>;
           }
           )}
         </ul>
@@ -90,6 +85,11 @@ class Forecast extends React.Component {
     );
   }
 }
+
+Weather.propTypes = {
+  icon: PropTypes.string.isRequired,
+  timeString: PropTypes.string.isRequired,
+};
 
 ReactDOM.render(
   <Forecast />,
