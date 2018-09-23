@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import Weather from './Weather';
 
 const baseURL = process.env.ENDPOINT;
 
@@ -27,32 +27,6 @@ const getForecastFromApi = async () => {
 
   return {};
 };
-
-class Weather extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      icon: props.icon,
-      timeString: props.timeString,
-    };
-  }
-
-
-  render() {
-    const { icon, timeString } = this.state;
-
-    return (
-      <div className="forecastElem">
-        <div className="icon">
-          { icon && <img src={`/img/${icon}.svg`} alt="weather icon" /> }
-        </div> - {timeString}
-      </div>
-    );
-  }
-}
-
 
 class Forecast extends React.Component {
   constructor(props) {
@@ -86,10 +60,6 @@ class Forecast extends React.Component {
   }
 }
 
-Weather.propTypes = {
-  icon: PropTypes.string.isRequired,
-  timeString: PropTypes.string.isRequired,
-};
 
 ReactDOM.render(
   <Forecast />,
